@@ -49,6 +49,7 @@ final class GoogleMapController
         MethodChannel.MethodCallHandler,
         OnMapReadyCallback,
         OnMarkerTappedListener,
+        OnMarkerDragListener,
         PlatformView {
   private static final String TAG = "GoogleMapController";
   private final int id;
@@ -276,6 +277,20 @@ final class GoogleMapController
     arguments.put("marker", marker.getId());
     methodChannel.invokeMethod("marker#onTap", arguments);
   }
+
+
+
+
+  @Override
+  public void onMarkerDragEnd(Marker marker) {
+    final Map<String, Object> arguments = new HashMap<>(2);
+    arguments.put("marker_position", Convert.toJson(marker.getPosition()));
+    methodChannel.invokeMethod("marker#dragEnd", arguments);
+  }
+
+
+
+
 
   @Override
   public boolean onMarkerClick(Marker marker) {
